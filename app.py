@@ -106,6 +106,7 @@ def handle_message(event):
             )
         )
 
+main()
+
 if __name__ == "__main__":
-    main()
     app.run()
