@@ -80,7 +80,7 @@ def main():
             size=RichMenuSize(width=rm_object_a['size']['width'],
                               height=rm_object_a['size']['height']),
             selected=rm_object_a['selected'],
-            name=rm_object_a['name']
+            name=rm_object_a['name'],
             chat_bar_text=rm_object_a['chatBarText'],
             areas=areas
         )
