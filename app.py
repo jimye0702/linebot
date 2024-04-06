@@ -86,7 +86,8 @@ def main():
         )
 
         rm_id = linebot_api.create_rich_menu(rich_menu_request=rm_to_create).rich_menu_id
-
+        print (rm_id)
+        
         with open('./richmenu-a.png', 'rb') as image:
             linebot_blob_api.set_rich_menu_image(
                 rich_menu_id=rm_id,
