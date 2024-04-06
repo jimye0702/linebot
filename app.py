@@ -97,7 +97,7 @@ def main():
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_message(event):
     with ApiClient(configuration) as api_client:
-        line_bot_api = MessagingApi(api_client)
+        linebot_api = MessagingApi(api_client)
         linebot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
