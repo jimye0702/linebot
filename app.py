@@ -1,4 +1,5 @@
-from flask import Flask, request, abort
+from flask import Flask
+import requests, json
 
 from linebot.v3 import WebhookHandler
 from linebot.v3.exceptions import InvalidSignatureError
@@ -85,8 +86,11 @@ def main():
             areas=areas
         )
 
-        rm_id = linebot_api.create_rich_menu(rich_menu_request=rm_to_create).rich_menu_id
-        print (rm_id)
+        headers = {'Authorization':'Bearer '+config.access_token,'Content-Type':'application/json'}
+        req = requests.request('POST', 'https://api.line.me/v2/bot/richmenu',
+              headers=headers,data=json.dumps(rm_object_json()).encode('UTF-8'))
+        
+        rm_id = req.text['richMenuId']
         
         with open('./richmenu-a.png', 'rb') as image:
             linebot_blob_api.set_rich_menu_image(
