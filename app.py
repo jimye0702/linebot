@@ -60,7 +60,7 @@ def create_action(action):
     else:
         return MessageAction(test=action.get('text'))
 
-def main(config):
+def main(config=config):
     with ApiClient(configuration) as api_client:
         linebot_api = MessagingApi(api_client)
         linebot_blob_api = MessagingApiBlob(api_client)
