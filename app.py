@@ -15,7 +15,7 @@ from linebot.v3.webhooks import (
 
 app = Flask(__name__)
 
-configuration = Configuration(access_token='F6j/vI07g63ColyEjSZABfSqrxUfd0S7c2KOwtCa0VvVJmN7oYtwOHmUrFRWL54svPWex5N7mWtGYtI2owgACLlENIT5nM3vR0QDw/pVEi51LuSzkzc4WTbcH7wUipI1hz4VZbQ2acPEX3AtmdoOYgdB04t89/1O/w1cDnyilFU=')
+config = Configuration(access_token='F6j/vI07g63ColyEjSZABfSqrxUfd0S7c2KOwtCa0VvVJmN7oYtwOHmUrFRWL54svPWex5N7mWtGYtI2owgACLlENIT5nM3vR0QDw/pVEi51LuSzkzc4WTbcH7wUipI1hz4VZbQ2acPEX3AtmdoOYgdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('c5c89c172e454a13de0ee692c5d603f4')
 
 
