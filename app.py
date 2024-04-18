@@ -99,6 +99,9 @@ def main(config=config):
                 _headers={'Content-Type': 'image/png'}
             )
 
+        req = requests.request('POST', 'https://api.line.me/v2/bot/richmenu/rm_id',
+                                headers=headers)
+
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_message(event):
     with ApiClient(config) as api_client:
