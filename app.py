@@ -65,7 +65,7 @@ def main(config=config):
         linebot_api = MessagingApi(api_client)
         linebot_blob_api = MessagingApiBlob(api_client)
         rm_object_a = rm_object_json()
-        areas = [
+        ```areas = [
             RichMenuArea(
                 bounds=RichMenuBounds(
                     x=info['bounds']['x'],
@@ -84,7 +84,7 @@ def main(config=config):
             name=rm_object_a['name'],
             chat_bar_text=rm_object_a['chatBarText'],
             areas=areas
-        )
+        )```
 
         headers = {'Authorization':'Bearer '+config.access_token,'Content-Type':'application/json'}
         req = requests.request('POST', 'https://api.line.me/v2/bot/richmenu',
@@ -92,13 +92,11 @@ def main(config=config):
         
         rm_id = req.text[2:-2].split(':')[1][1:]
         
-        with open('./richmenu-a.png', 'rb') as image:
-            linebot_blob_api.set_rich_menu_image(
-                rich_menu_id=rm_id,
-                body=bytearray(image.read()),
-                _headers={'Content-Type': 'image/png'}
-            )
-
+        with ApiClient(config) as api_client:
+            api_instance = MessagingApi(api_client)
+            with open('./richmenu-a.png', 'rb') as image:
+                api_instance.set_rich_menu_image(rich_menu_id=rm_id,'image/png',image)
+               
         req = requests.request('POST', 'https://api.line.me/v2/bot/user/all/richmenu/rm_id',
                                 headers=headers)
 
