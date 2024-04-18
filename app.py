@@ -65,7 +65,7 @@ def main(config=config):
         linebot_api = MessagingApi(api_client)
         linebot_blob_api = MessagingApiBlob(api_client)
         rm_object_a = rm_object_json()
-        ```areas = [
+        '''areas = [
             RichMenuArea(
                 bounds=RichMenuBounds(
                     x=info['bounds']['x'],
@@ -84,7 +84,7 @@ def main(config=config):
             name=rm_object_a['name'],
             chat_bar_text=rm_object_a['chatBarText'],
             areas=areas
-        )```
+        )'''
 
         headers = {'Authorization':'Bearer '+config.access_token,'Content-Type':'application/json'}
         req = requests.request('POST', 'https://api.line.me/v2/bot/richmenu',
