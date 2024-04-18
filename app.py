@@ -90,7 +90,7 @@ def main(config=config):
         req = requests.request('POST', 'https://api.line.me/v2/bot/richmenu',
               headers=headers,data=json.dumps(rm_object_json()).encode('UTF-8'))
         
-        rm_id = req.text['richMenuId']
+        rm_id = req.text[2:-2].split(':')[1][1:]
         
         with open('./richmenu-a.png', 'rb') as image:
             linebot_blob_api.set_rich_menu_image(
