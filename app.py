@@ -61,7 +61,7 @@ def create_action(action):
         return MessageAction(test=action.get('text'))
 
 def main(config=config):
-    with ApiClient(configuration) as api_client:
+    with ApiClient(config) as api_client:
         linebot_api = MessagingApi(api_client)
         linebot_blob_api = MessagingApiBlob(api_client)
         rm_object_a = rm_object_json()
@@ -101,7 +101,7 @@ def main(config=config):
 
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_message(event):
-    with ApiClient(configuration) as api_client:
+    with ApiClient(config) as api_client:
         linebot_api = MessagingApi(api_client)
         linebot_api.reply_message_with_http_info(
             ReplyMessageRequest(
