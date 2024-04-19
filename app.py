@@ -121,7 +121,7 @@ def handle_message(event):
         linebot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text=event.message.text)]
+                messages=[TextMessage(text=user_id)]
             )
         )
 
