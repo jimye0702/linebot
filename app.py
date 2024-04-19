@@ -93,7 +93,7 @@ def main(config=config):
         rm_id = req.text[2:-2].split(':')[1][1:]
 
         path = os.getcwd()
-        with open(path+'richmenu-a.png') as f:
+        with open(path+'/richmenu-a.png') as f:
             headers = {'Authorization':f'Bearer {config.access_token}','Content-Type':'image/jpeg'}
             req = requests.request('POST', 'https://api-data.line.me/v2/bot/richmenu/rm_id/content',
                                     headers=headers, data=f)
