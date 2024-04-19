@@ -77,15 +77,7 @@ def main(config=config):
             for info in rm_object_a['areas'] 
         ]
 
-        '''rm_to_create = RichMenuRequest(
-            size=RichMenuSize(width=rm_object_a['size']['width'],
-                              height=rm_object_a['size']['height']),
-            selected=rm_object_a['selected'],
-            name=rm_object_a['name'],
-            chat_bar_text=rm_object_a['chatBarText'],
-            areas=areas
-        )'''
-
+        #https://developers.line.biz/en/reference/messaging-api/#create-rich-menu
         #Get RichMenu List
         header = {'Authorization':f'Bearer {config.access_token}'}
         req_ls = requests.request('GET', 'https://api.line.me/v2/bot/richmenu/list',
@@ -125,6 +117,7 @@ def main(config=config):
 def handle_message(event):
     with ApiClient(config) as api_client:
         linebot_api = MessagingApi(api_client)
+        user_id = event.source.userId
         linebot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
