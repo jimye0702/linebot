@@ -117,11 +117,10 @@ def main(config=config):
 def handle_message(event):
     with ApiClient(config) as api_client:
         linebot_api = MessagingApi(api_client)
-        user_id = event.source.userId
         linebot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text=user_id)]
+                messages=[TextMessage(text=event.message.text)]
             )
         )
 
