@@ -86,7 +86,7 @@ def main(config=config):
             areas=areas
         )'''
 
-        headers = {'Authorization':f'Bearer {config.access_token},'Content-Type':'application/json'}
+        headers = {'Authorization':f'Bearer {config.access_token}','Content-Type':'application/json'}
         req = requests.request('POST', 'https://api.line.me/v2/bot/richmenu',
               headers=headers,data=json.dumps(rm_object_json()).encode('UTF-8'))
         
@@ -94,11 +94,11 @@ def main(config=config):
 
         path = os.getcwd()
         with open(path+'richmenu-a.png') as f:
-            headers = {'Authorization':f'Bearer {config.access_token},'Content-Type':'image/jpeg'}
+            headers = {'Authorization':f'Bearer {config.access_token}','Content-Type':'image/jpeg'}
             req = requests.request('POST', 'https://api-data.line.me/v2/bot/richmenu/rm_id/content',
                                     headers=headers, data=f)
                                     
-        headers = {'Authorization':f'Bearer {config.access_token}}
+        headers = {'Authorization':f'Bearer {config.access_token}'}
         req = requests.request('POST', 'https://api.line.me/v2/bot/user/all/richmenu/rm_id',
                                 headers=headers)
 
