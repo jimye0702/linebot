@@ -1,5 +1,5 @@
 from flask import Flask, request, abort
-import requests, json
+import requests, json, os
 
 from linebot.v3 import WebhookHandler
 from linebot.v3.exceptions import InvalidSignatureError
@@ -65,7 +65,7 @@ def main(config=config):
         linebot_api = MessagingApi(api_client)
         linebot_blob_api = MessagingApiBlob(api_client)
         rm_object_a = rm_object_json()
-        '''areas = [
+        areas = [
             RichMenuArea(
                 bounds=RichMenuBounds(
                     x=info['bounds']['x'],
@@ -77,7 +77,7 @@ def main(config=config):
             for info in rm_object_a['areas'] 
         ]
 
-        rm_to_create = RichMenuRequest(
+        '''rm_to_create = RichMenuRequest(
             size=RichMenuSize(width=rm_object_a['size']['width'],
                               height=rm_object_a['size']['height']),
             selected=rm_object_a['selected'],
@@ -86,17 +86,19 @@ def main(config=config):
             areas=areas
         )'''
 
-        headers = {'Authorization':'Bearer '+config.access_token,'Content-Type':'application/json'}
+        headers = {'Authorization':f'Bearer {config.access_token},'Content-Type':'application/json'}
         req = requests.request('POST', 'https://api.line.me/v2/bot/richmenu',
               headers=headers,data=json.dumps(rm_object_json()).encode('UTF-8'))
         
         rm_id = req.text[2:-2].split(':')[1][1:]
-        
-        with ApiClient(config) as api_client:
-            api_instance = MessagingApi(api_client)
-            with open('./richmenu-a.png', 'rb') as image:
-                api_instance.set_rich_menu_image(rich_menu_id=rm_id,'image/png',image)
-               
+
+        path = os.getcwd()
+        with open(path+'richmenu-a.png') as f:
+            headers = {'Authorization':f'Bearer {config.access_token},'Content-Type':'image/jpeg'}
+            req = requests.request('POST', 'https://api-data.line.me/v2/bot/richmenu/rm_id/content',
+                                    headers=headers, data=f)
+                                    
+        headers = {'Authorization':f'Bearer {config.access_token}}
         req = requests.request('POST', 'https://api.line.me/v2/bot/user/all/richmenu/rm_id',
                                 headers=headers)
 
