@@ -86,21 +86,40 @@ def main(config=config):
             areas=areas
         )'''
 
-        headers = {'Authorization':f'Bearer {config.access_token}','Content-Type':'application/json'}
-        req = requests.request('POST', 'https://api.line.me/v2/bot/richmenu',
-              headers=headers,data=json.dumps(rm_object_json()).encode('UTF-8'))
-        
-        rm_id = req.text[2:-2].split(':')[1][1:]
+        #Get RichMenu List
+        header = {'Authorization':f'Bearer {config.access_token}'}
+        req_ls = requests.request('GET', 'https://api.line.me/v2/bot/richmenu/list',
+                                   headers=header)
 
+        #Delete RichMenu All
+        if len(req_ls.json()['richmenus']) == 0:
+            pass
+        else:
+            header = {'Authorization':f'Bearer {config.access_token}'}
+            for n in range(len(req_ls.json()['richmenus'])):
+                req_id = req_ls.json()['richmenus'][n]['richMenuId']
+                req_del = requests.request('DELETE', f'https://api.line.me/v2/bot/richmenu/{req_id}',
+                                            headers=header)
+        
+        #Create RichMenu        
+        header = {'Authorization':f'Bearer {config.access_token}','Content-Type':'application/json'}
+        req = requests.request('POST', 'https://api.line.me/v2/bot/richmenu',
+                                headers=header,data=json.dumps(rm_object_json()).encode('UTF-8'))
+
+        #Upload image for RichMenu
+        header = {'Authorization':f'Bearer {config.access_token}'}
+        req_ls = requests.request('GET', 'https://api.line.me/v2/bot/richmenu/list',
+                                   headers=header)   
+        rm_id = req_ls.json()['richmenus'][0]['richMenuId']
         path = os.getcwd()
         with open(path+'/richmenu-a.png', 'rb') as f:
-            headers = {'Authorization':f'Bearer {config.access_token}','Content-Type':'image/png'}
-            req = requests.request('POST', 'https://api-data.line.me/v2/bot/richmenu/rm_id/content',
-                                    headers=headers, data=f)
-                                    
-        headers = {'Authorization':f'Bearer {config.access_token}'}
-        req = requests.request('POST', 'https://api.line.me/v2/bot/user/all/richmenu/rm_id',
-                                headers=headers)
+            header = {'Authorization':f'Bearer {config.access_token}','Content-Type':'image/png'}
+            req = requests.request('POST', f'https://api-data.line.me/v2/bot/richmenu/{rm_id}/content',
+                                    headers=header, data=f)
+        #Set Default RichMenu                                    
+        header = {'Authorization':f'Bearer {config.access_token}'}
+        req = requests.request('POST', f'https://api.line.me/v2/bot/user/all/richmenu/{rm_id}',
+                                headers=header)
 
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_message(event):
