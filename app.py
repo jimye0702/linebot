@@ -35,7 +35,7 @@ def callback():
     except InvalidSignatureError:
         app.logger.info("Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
-    return 'OK'
+    return 'OK', body
 
 def rm_object_json():
     return {
@@ -115,9 +115,9 @@ def main(config=config):
                                 headers=header)
 
 @handler.add(MessageEvent, message=TextMessageContent)
-def handle_message(event):
+def handle_message(event, body):
     with ApiClient(config) as api_client:
-        body = json(request.get_data(as_text=True))
+        #body = json(request.get_data(as_text=True))
         event = body['events'][0]
         user_id = event['source']['userId']
         linebot_api = MessagingApi(api_client)
