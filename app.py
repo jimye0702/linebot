@@ -1,5 +1,6 @@
 from flask import Flask, request, abort
 import requests, json, os
+import sqlite3
 
 from linebot.v3 import WebhookHandler
 from linebot.v3.exceptions import InvalidSignatureError
@@ -63,7 +64,7 @@ def create_action(action):
 def main(config=config):
     with ApiClient(config) as api_client:
         linebot_api = MessagingApi(api_client)
-        linebot_blob_api = MessagingApiBlob(api_client)
+        #linebot_blob_api = MessagingApiBlob(api_client)
         rm_object_a = rm_object_json()
         areas = [
             RichMenuArea(
@@ -116,11 +117,14 @@ def main(config=config):
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_message(event):
     with ApiClient(config) as api_client:
+        body = json(request.get_data(as_text=True))
+        event = body['events'][0]
+        user_id = event['source']['userId']
         linebot_api = MessagingApi(api_client)
         linebot_api.reply_message_with_http_info(
             ReplyMessageRequest(
                 reply_token=event.reply_token,
-                messages=[TextMessage(text=event.message.text)]
+                messages=[TextMessage(text=user_id)]
             )
         )
 
